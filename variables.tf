@@ -1,7 +1,6 @@
-variable "aws_instance" {
+variable "ami" {
   default = {
-    nat_instance = {
-      id = "eni-05002a8d7401646cf"
-    }
+    nat_instance = "ami-0abd4c49376ea5dbb"
+    ubuntu_22_04 = "ami-058165de3b7202099"
   }
 }
