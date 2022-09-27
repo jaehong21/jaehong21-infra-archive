@@ -25,10 +25,10 @@ resource "aws_security_group" "nat_instance_security_group" {
     cidr_blocks = [aws_subnet.first_private_subnet.cidr_block]
   }
   ingress {
-    description = "Allow all ICMP protocol"
-    from_port = -1
-    to_port   = -1
-    protocol = "icmp"
+    description = "Allow MySQL in private subnet"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
     cidr_blocks = [aws_subnet.first_private_subnet.cidr_block]
   }
   egress {
@@ -44,11 +44,24 @@ resource "aws_security_group" "nat_instance_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
-    from_port = -1
-    to_port   = -1
-    protocol = "icmp"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+# ingress {
+#   description = "Allow all ICMP protocol"
+#   from_port = -1
+#   to_port   = -1
+#   protocol = "icmp"
+#   cidr_blocks = [aws_subnet.first_private_subnet.cidr_block]
+#  }
+#  egress {
+#   from_port = -1
+#   to_port   = -1
+#   protocol = "icmp"
+#   cidr_blocks = ["0.0.0.0/0"]
+#  }
 }
 resource "aws_instance" "nat_instance" {
   ami           = var.ami.nat_instance
