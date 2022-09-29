@@ -48,7 +48,7 @@ resource "aws_internet_gateway" "default_igw" {
 #  allocation_id = aws_eip.default_nat_gateway_static_ip.id
 #  subnet_id = aws_subnet.first_public_subnet.id
 #  tags = {
-#    Name = "NAT-GateWay"
+#    Name = "nat-instance-GateWay"
 #  }
 #}
 #resource "aws_eip" "default_nat_gateway_static_ip" {
