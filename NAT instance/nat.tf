@@ -98,7 +98,7 @@ output "nat_instance_static_ip" {
 
 resource "aws_key_pair" "vpn_key" {
   key_name   = "vpn-key"
-  public_key = file("~/Desktop/server-key/vpn_key.pub")
+  public_key = file(var.key_path.vpn_key)
 }
 
 resource "aws_instance" "bastion_host" {

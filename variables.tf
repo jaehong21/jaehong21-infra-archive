@@ -4,3 +4,10 @@ variable "ami" {
     ubuntu_22_04 = "ami-058165de3b7202099"
   }
 }
+
+variable "key_path" {
+  default = {
+    dev_key = "~/Desktop/server-key/dev_key.pub"
+    vpn_key = "~/Desktop/server-key/vpn_key.pub"
+  }
+}
