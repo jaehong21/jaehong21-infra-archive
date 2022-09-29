@@ -13,7 +13,8 @@ terraform init
 
 uncomment ```main.tf``` to use following templates
 1. NAT instance
-2. EKS (Elastic  Kubernetes Service)
+2. k3s (Lightweight Kubernetes)
+3. EKS (Elastic  Kubernetes Service)
 ```python
 # module "nat" {
 # source = "./module/nat"
