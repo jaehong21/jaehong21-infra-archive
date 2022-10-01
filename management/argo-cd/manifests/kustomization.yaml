@@ -1,2 +1,2 @@
 resources:
-  - https://github.com/jaehong21/jaehong21-infra//argo-cd?ref=main
+  - https://github.com/jaehong21/jaehong21-infra/management/argo-cd?ref=main
