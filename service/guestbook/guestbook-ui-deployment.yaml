@@ -6,7 +6,7 @@ metadata:
     env: dev
     service: doggly
 spec:
-  replicas: 2
+  replicas: 4
   selector:
     matchLabels:
       env: dev
