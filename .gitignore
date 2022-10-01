@@ -1,6 +1,7 @@
-.terraform
-.terraform.lock.hcl
 .idea
 .DS_Store
 
-variables.tf
+# platform
+platform/.terraform
+platform/.terraform.lock.hcl
+platform/variables.tf
