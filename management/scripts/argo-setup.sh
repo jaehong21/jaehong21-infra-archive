@@ -10,7 +10,7 @@ kubectl get all -n argocd
 # chmod +x /usr/local/bin/argocd
 
 # ArgoCD Server type -> LoadBalancer
-kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+# kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 
 # Describe ArgoCD
 kubectl describe svc argocd-server -n argocd
