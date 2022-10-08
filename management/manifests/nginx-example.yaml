@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: example
+  labels:
+    name: example
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-nginx
+  namespace: example
+  labels:
+    env: dev
+    service: example
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      env: dev
+      service: example
+  template:
+    metadata:
+      labels:
+        env: dev
+        service: example
+    spec:
+      containers:
+        - name: example-nginx
+          image: nginx:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-nginx
+  namespace: example
+  labels:
+    env: dev
+    service: example
+spec:
+  type: ClusterIP
+  selector:
+    env: dev
+    service: example
+  ports:
+    - port: 80
+      targetPort: 80
