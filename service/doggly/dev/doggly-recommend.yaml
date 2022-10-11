@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doggly-recommend
+  namespace: doggly-dev
+  labels:
+    env: dev
+    name: doggly-recommend
+spec:
+  replicas: 2
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      env: dev
+      name: doggly-recommend
+  template:
+    metadata:
+      labels:
+        env: dev
+        name: doggly-recommend
+    spec:
+      containers:
+        - name: doggly-recommend
+          image: 193362923626.dkr.ecr.ap-northeast-2.amazonaws.com/doggly-recommend:eba4375
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "50Mi"
+            limits:
+              memory: "75Mi"
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: doggly-recommend
+  namespace: doggly-dev
+  labels:
+    env: dev
+    name: doggly-recommend
+spec:
+  type: ClusterIP
+  selector:
+    env: dev
+    name: doggly-recommend
+  ports:
+    - port: 80
+      targetPort: 8000

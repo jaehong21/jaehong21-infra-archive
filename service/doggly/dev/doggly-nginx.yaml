@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doggly-nginx
+  namespace: doggly-dev
+  labels:
+    env: dev
+    name: doggly-nginx
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      env: dev
+      name: doggly-nginx
+  template:
+    metadata:
+      labels:
+        env: dev
+        name: doggly-nginx
+    spec:
+      containers:
+        - name: doggly-nginx
+          image: nginx:latest
+          resources:
+            requests:
+              memory: "10Mi"
+            limits:
+              memory: "15Mi"
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: doggly-nginx
+  namespace: doggly-dev
+  labels:
+    env: dev
+    name: doggly-nginx
+spec:
+  type: ClusterIP
+  selector:
+    env: dev
+    name: doggly-nginx
+  ports:
+    - port: 80
+      targetPort: 80

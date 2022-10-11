@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: doggly-dev
+  namespace: argocd
+spec:
+  destination:
+    namespace: doggly-dev
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: service/doggly/dev
+    repoURL: git@github.com:SigorJ/sigor-gitops.git
+    targetRevision: HEAD
+  syncPolicy:
+    # automated:
+      # prune: true
+      # allowEmpty: true
+      # selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+

@@ -1,0 +1,52 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traefik-routers
+  namespace: doggly-dev
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    kubernetes.io/tls-acme: "true"
+    # cert-manager.io/cluster-issuer: tls-issuer
+    cert-manager.io/issuer: tls-issuer-dev
+    # ingress.kubernetes.io/ssl-redirect: "true"
+    traefik.ingress.kubernetes.io/router.middlewares: doggly-dev-redirect-https@kubernetescrd
+spec:
+  tls:
+    - secretName: tls-cert-secret-dev
+      hosts:
+      - dev.k3s.doggly.co.kr
+  rules:
+    - host: dev.k3s.doggly.co.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: doggly-nginx
+                port:
+                  number: 80
+          - path: /v1
+            pathType: Prefix
+            backend:
+              service:
+                name: doggly-nestjs
+                port:
+                  number: 80
+          - path: /v1/recommend
+            pathType: Prefix
+            backend:
+              service:
+                name: doggly-recommend
+                port:
+                  number: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-https
+  namespace: doggly-dev
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true

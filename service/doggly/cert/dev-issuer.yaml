@@ -1,0 +1,18 @@
+# tls-issuer.yml
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: tls-issuer-dev
+  namespace: doggly-dev
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: sigorjoellee@gmail.com
+    privateKeySecretRef:
+      name: tls-issuer-secret-dev
+    solvers:
+    - selector: {}
+      http01:
+        ingress:
+          class: traefik

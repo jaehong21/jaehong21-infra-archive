@@ -1,0 +1,21 @@
+# tls-certificate.yml
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tls-cert-secret-dev
+  namespace: doggly-dev
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-cert-dev
+  namespace: doggly-dev
+spec:
+  secretName: tls-cert-secret-dev
+  issuerRef:
+    name: tls-issuer-dev
+    kind: Issuer
+  commonName: dev.k3s.doggly.co.kr
+  dnsNames:
+     - dev.k3s.doggly.co.kr

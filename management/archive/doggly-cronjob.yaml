@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecr-login-helper-configmap
+  namespace: doggly
+data:
+  AWS_REGION: "ap-northeast-2"
+  DOCKER_SECRET_NAME: regcred
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ecr-login-helper
+  namespace: doggly
+spec:
+  schedule: "0 0 */10 * *"
+  successfulJobsHistoryLimit: 3
+  suspend: false
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: ecr-login-helper
+          containers:
+            - name: ecr-login-helper
+              image: odaniait/aws-kubectl:latest
+              imagePullPolicy: IfNotPresent
+              envFrom:
+                - secretRef:
+                    name: ecr-login-helper-secret
+                - configMapRef:
+                    name: ecr-login-helper-configmap
+              command:
+                - /bin/sh
+                - -c
+                - |-
+                  ECR_TOKEN=`aws ecr get-login-password --region ${AWS_REGION}`
+                  NAMESPACE_NAME=health-check
+                  kubectl delete secret --ignore-not-found $DOCKER_SECRET_NAME -n $NAMESPACE_NAME
+                  kubectl create secret docker-registry $DOCKER_SECRET_NAME \
+                  --docker-server=https://${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com \
+                  --docker-username=AWS \
+                  --docker-password="${ECR_TOKEN}" \
+                  --namespace=$NAMESPACE_NAME
+                  echo "Secret was successfully updated at $(date)"
+          restartPolicy: Never
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ecr-login-helper
+  namespace: doggly
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: doggly
+  name: role-full-access-to-secrets
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    resourceNames: ["regcred"]
+    verbs: ["delete"]
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["create"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ecr-login-role-binding
+  namespace: doggly
+subjects:
+  - kind: ServiceAccount
+    name: ecr-login-helper
+    namespace: doggly
+    apiGroup: ""
+roleRef:
+  kind: Role
+  name: role-full-access-to-secrets
+  apiGroup: ""
+---
