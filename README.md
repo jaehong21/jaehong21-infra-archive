@@ -47,12 +47,14 @@ terraform init
 
 uncomment ```main.tf``` to use following templates
 1. NAT instance
-2. k3s (Lightweight Kubernetes)
+2. EC2 (+ k3s) (Lightweight Kubernetes setup using EC2)
 3. EKS (Elastic  Kubernetes Service)
 4. ECR (Elastic Container Registry)
 5. AWS Lambda (Serverless)
 6. Route53
-7. VPC and Subnet
+7. Key Pair
+8. Lightsail 
+9. VPC and Subnet
 ```terraform
 # module "nat" {
 # source = "./module/nat"
