@@ -3,6 +3,10 @@ module "key_pair" {
   dev_key_path = "/Users/jaehong21/Desktop/server-key/dev_key.pub"
 }
 
+module "route53" {
+  source = "./module/route53"
+}
+
 module "lightsail" {
   source = "./module/lightsail"
   key_pair = module.key_pair.dev_key_pair_lightsail

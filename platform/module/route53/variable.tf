@@ -1,11 +1,6 @@
 variable "static_ip_address" {
   type = map(string)
-  default = {
-    recommend_dev = ""
-    ai_dev = ""
-    ai_prod = ""
-    backend_prod = ""
-  }
+  default = {}
 }
 
 variable "cloudfront_zone_id" {

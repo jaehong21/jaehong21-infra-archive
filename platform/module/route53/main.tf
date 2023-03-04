@@ -1,6 +1,6 @@
 # AWS Route53 Zone
-resource "aws_route53_zone" "doggly_co_kr" {
-  name = "doggly.co.kr"
+resource "aws_route53_zone" "jaehong21" {
+  name = "jaehong21.com"
 }
 
 #resource "aws_route53_record" "dev_k3s_route53_record" {
