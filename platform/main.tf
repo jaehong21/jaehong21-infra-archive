@@ -7,6 +7,6 @@ module "lightsail" {
   source = "./module/lightsail"
   key_pair = module.key_pair.dev_key_pair_lightsail
 }
-output "lightsail" {
-  value = module.lightsail.test_instance_static_ip
-}
+#  output "lightsail" {
+#    value = module.lightsail.test_instance_static_ip
+#  }
