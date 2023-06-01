@@ -2,7 +2,7 @@
 provider "aws" {
   # aws-cli profile
   profile = "jaehong21"
-  region = "ap-northeast-2"
+  region  = "ap-northeast-2"
 }
 
 terraform {
@@ -12,16 +12,16 @@ terraform {
       version = "~> 3.65"
     }
   }
-  backend s3 {
+  backend "s3" {
     # S3 bucket name of .tfstate
-    bucket         = "jaehong21-tfstate"
+    bucket = "jaehong21-tfstate"
     # tfstate path in S3
-    key            = "terraform.tfstate"
-    region         = "ap-northeast-2"
+    key    = "terraform.tfstate"
+    region = "ap-northeast-2"
     # name of dynamodb_table
     dynamodb_table = "tfstate-lock"
     # aws-cli profile
-    profile        = "jaehong21"
+    profile = "jaehong21"
   }
 }
 
@@ -37,9 +37,9 @@ resource "aws_s3_bucket_versioning" "tfstate-versioning" {
 }
 
 resource "aws_dynamodb_table" "terraform_state_lock" {
-  name           = "tfstate-lock"
-  hash_key       = "LockID"
-  billing_mode   = "PAY_PER_REQUEST"
+  name         = "tfstate-lock"
+  hash_key     = "LockID"
+  billing_mode = "PAY_PER_REQUEST"
 
   attribute {
     name = "LockID"

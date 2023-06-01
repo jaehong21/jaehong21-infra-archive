@@ -22,6 +22,11 @@ resource "aws_lightsail_instance_public_ports" "jaehong21_vpn_public_ports" {
     from_port = 443
     to_port   = 443
   }
+    port_info {
+    protocol  = "tcp"
+    from_port = 8080
+    to_port   = 8080
+  }
 }
 
 resource "aws_lightsail_static_ip" "jaehong21_vpn_static_ip" {
